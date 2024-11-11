@@ -302,6 +302,7 @@ AX_BOOL CIPCBuilder::InitSensor() {
         tCamera.tLdcAttr.nDistorRatio = tSnsConfig.arrPipeAttr[0].tLdcAttr.nLdcDistortionRatio;
         tCamera.bDisSupport = tSnsConfig.arrPipeAttr[0].tDisAttr.bDisEnable;
         tCamera.tDisAttr.bDisEnable = tSnsConfig.arrPipeAttr[0].tDisAttr.bDisEnable;
+        tCamera.bSnsRawDump = tSnsConfig.bSnsRawDump;
         CWebOptionHelper::GetInstance()->InitCameraAttr(nSnsID, tSnsConfig.eSensorType, tCamera);
         CTestSuite::GetInstance()->InitCameraAttr(nSnsID, tSnsConfig.eSensorType, tCamera);
 
@@ -2145,7 +2146,10 @@ AX_BOOL CIPCBuilder::DispatchOpr(WEB_REQ_OPERATION_T& tOperation, AX_VOID** pRes
             ret = AX_TRUE;
             break;
         }
-
+        case E_WEB_OPERATION_TYPE_SNS_RAW_DUMP: {
+            ret = AX_TRUE;
+            break;
+        }
         default:
             LOG_MM_E(PPL, "eReqType:%d is nonsupport.", eOperaType);
             ret = AX_FALSE;

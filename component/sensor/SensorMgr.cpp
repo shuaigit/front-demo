@@ -948,6 +948,16 @@ AX_BOOL CSensorMgr::GetResolution(AX_U32 nSnsID, AX_U32 &nWidth, AX_U32 &nHeight
     return AX_TRUE;
 }
 
+AX_BOOL CSensorMgr::SetSnsRawDump(AX_U32 nSnsID, AX_BOOL bEnable)
+{
+    CBaseSensor* pCurSensor = GetSnsInstance(nSnsID);
+    if (nullptr == pCurSensor) {
+        return AX_FALSE;
+    }
+    pCurSensor->SetSnsRawDump(bEnable);
+    return AX_TRUE;
+}
+
 AX_VOID CSensorMgr::SetAeSyncRatio(const AX_ISP_IQ_AE_SYNC_RATIO_T& tAeSyncRatio) {
     m_tAeSyncRatio = tAeSyncRatio;
 }

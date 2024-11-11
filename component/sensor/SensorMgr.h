@@ -139,6 +139,7 @@ public:
     AX_BOOL EnableChn(AX_U32 nSnsID, AX_BOOL bEnable);
     AX_BOOL EZoom(AX_U32 nSnsID, AX_F32 fEZoomRatio);
     AX_BOOL GetResolution(AX_U32 nSnsID, AX_U32 &nWidth, AX_U32 &nHeight);
+    AX_BOOL SetSnsRawDump(AX_U32 nSnsID, AX_BOOL bEnable);
 
     AX_VOID SetAeSyncRatio(const AX_ISP_IQ_AE_SYNC_RATIO_T& tAeSyncRatio);
     AX_VOID SetAwbSyncRatio(const AX_ISP_IQ_AWB_SYNC_RATIO_T& tAwbSyncRatio);

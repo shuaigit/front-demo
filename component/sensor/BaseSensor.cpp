@@ -368,6 +368,34 @@ AX_BOOL CBaseSensor::OpenAll() {
                     return AX_FALSE;
                 }
 
+                if (m_tSnsCfg.tRawScale.bEnable) {
+                    AX_VIN_EXT_RAW_DUMP_ATTR_T tRawDumpAttr;
+                    memset(&tRawDumpAttr, 0, sizeof(tRawDumpAttr));
+                    tRawDumpAttr.bEnable = m_tSnsCfg.tRawScale.bEnable;
+                    tRawDumpAttr.nDepth = 1;
+                    nRet = AX_VIN_SetExtRawDumpAttr(nPipeID, &tRawDumpAttr);
+                    if (0 != nRet) {
+                        LOG_M_E(SENSOR, "[%d] AX_VIN_SetExtRawDumpAttr failed, ret=0x%x.", nPipeID, nRet);
+                        return AX_FALSE;
+                    }
+                }
+
+                if (m_tSnsCfg.bSnsRawDump) {
+                    AX_VIN_DUMP_ATTR_T tSnsDumpAttr;
+                    memset(&tSnsDumpAttr, 0, sizeof(tSnsDumpAttr));
+                    tSnsDumpAttr.bEnable = AX_TRUE;
+                    tSnsDumpAttr.nDepth = 1;
+                    nRet = AX_VIN_SetDevDumpAttr(nDevID, AX_VIN_DUMP_QUEUE_TYPE_DEV, &tSnsDumpAttr);
+                    if (0 != nRet) {
+                        LOG_M_E(SENSOR, "dev:[%d] AX_VIN_SetDevDumpAttr failed, ret=0x%x.", nDevID, nRet);
+                        return AX_FALSE;
+                    }
+                    nRet = AX_VIN_AppendDevPool(nDevID, 5);
+                    if (0 != nRet) {
+                        LOG_M_E(SENSOR, "dev:[%d] AX_VIN_AppendDevPool failed, ret=0x%x.", nDevID, nRet);
+                        return AX_FALSE;
+                    }
+                }
                 // AX_VIN_DUMP_ATTR_T tPipeDumpAttr;
                 // memset(&tPipeDumpAttr, 0, sizeof(tPipeDumpAttr));
 
@@ -464,6 +492,17 @@ AX_BOOL CBaseSensor::OpenAll() {
             return AX_FALSE;
         }
 
+        if (m_tSnsCfg.tRawScale.bEnable) {
+            AX_VIN_RAW_SCALER_ATTR_T tRawScaleAttr;
+            memset(&tRawScaleAttr, 0, sizeof(tRawScaleAttr));
+            tRawScaleAttr.bEnable = m_tSnsCfg.tRawScale.bEnable;
+            tRawScaleAttr.eScaleRatio = m_tSnsCfg.tRawScale.eRatio;
+            nRet = AX_VIN_SetRawScalerAttr(nPipeID, &tRawScaleAttr);
+            if (0 != nRet) {
+                LOG_M_E(SENSOR, "[%d] AX_VIN_SetRawScalerAttr failed, ret=0x%x.", nPipeID, nRet);
+                return AX_FALSE;
+            }
+        }
         // step 13: AX_ISP_Create
         nRet = AX_ISP_Create(nPipeID);
         if (0 != nRet) {
@@ -805,6 +844,13 @@ AX_BOOL CBaseSensor::CloseAll() {
         LOG_M_C(SENSOR, "RxDev[%d] AX_MIPI_RX_Stop", nRxDevID);
     }
 
+    if (m_tSnsCfg.bSnsRawDump) {
+        nRet = AX_VIN_RemoveDevPool(nDevID, 5);
+        if (0 != nRet) {
+            LOG_M_E(SENSOR, "[%d] AX_VIN_RemoveDevPool failed, ret=0x%x.", nDevID, nRet);
+            return AX_FALSE;
+        }
+    }
     // step 12: AX_VIN_DestroyPipe
     nRet = AX_VIN_DestroyDev(nDevID);
     if (0 != nRet) {
@@ -1616,6 +1662,24 @@ AX_BOOL CBaseSensor::SetHdrRatio(AX_U8 nHdrRatio) {
         return LoadParams(strBinName);
     }
 
+    return AX_TRUE;
+}
+
+AX_BOOL CBaseSensor::SetSnsRawDump(AX_BOOL bEnable)
+{
+    AX_VIN_DUMP_ATTR_T tDevDump;
+    AX_S32 nRet;
+    nRet = AX_VIN_GetDevDumpAttr(m_tSnsCfg.nDevID, AX_VIN_DUMP_QUEUE_TYPE_DEV, &tDevDump);
+    if (nRet != 0) {
+        LOG_M_E(SENSOR, "dev:[%d] AX_VIN_GetDevDumpAttr failed, ret=0x%x.", m_tSnsCfg.nDevID, nRet);
+        return AX_FALSE;
+    }
+    tDevDump.bEnable = bEnable;
+    nRet = AX_VIN_SetDevDumpAttr(m_tSnsCfg.nDevID, AX_VIN_DUMP_QUEUE_TYPE_DEV, &tDevDump);
+    if (nRet != 0) {
+        LOG_M_E(SENSOR, "dev:[%d] AX_VIN_SetDevDumpAttr failed, ret=0x%x.", m_tSnsCfg.nDevID, nRet);
+        return AX_FALSE;
+    }
     return AX_TRUE;
 }
 

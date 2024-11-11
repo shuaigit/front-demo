@@ -79,7 +79,13 @@
                 "ldc_y_ratio": 0,
                 "ldc_xy_ratio": 0,
                 "ldc_distor_ratio": 0
-            }
+            },
+            "raw_scale":{
+                "enable":true,
+                "//":"0: 1/2, 1:1/4......",
+                "ratio":0
+            },
+            "sns_raw_dump":true
         }
     ],
     "//": "Dual sensor",

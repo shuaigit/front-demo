@@ -59,6 +59,9 @@
           </el-col>
         </el-row>
       </el-form>
+      <el-form-item label="SnsRawDump:">
+        <el-switch v-model="formCamera.camera_attr.sns_raw_dump"></el-switch>
+      </el-form-item>
 
       <!-- el-form-item label="开启NR:">
         <el-switch v-model="formCamera.camera_attr.nr_mode"></el-switch>
@@ -178,6 +181,7 @@ export default {
           switch_PN_mode_enable: false,
           hdr_ratio_enable: false,
           hdr_ratio: 0,
+          sns_raw_dump:true,
           framerate_opts: [
             25,
             30
@@ -243,6 +247,7 @@ export default {
           this.formCamera.camera_attr.hdr_ratio = res.data.camera_attr.hdr_ratio
           this.formCamera.framerate_opts = res.data.framerate_opts
           this.formCamera.resolution_opts = res.data.resolution_opts
+          this.formCamera.sns_raw_dump = res.data.sns_raw_dump
 
           if (res.data.camera_attr.lf_hdr_support) {
             this.sns_mode_item_num = 4

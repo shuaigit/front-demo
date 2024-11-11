@@ -518,8 +518,11 @@ AX_BOOL CSensorCfgParser::ParseJson(picojson::object& objJsonRoot, std::map<AX_U
                     tSensorCfg.tRawScale.bEnable = (AX_BOOL)objRawScaleAttr["enable"].get<bool>();
                 }
                 if (objRawScaleAttr.end() != objRawScaleAttr.find("ratio")) {
-                    tSensorCfg.tRawScale.eRatio = (AX_VIN_DOWN_SCALE_RATIO_E)objRawScaleAttr["ration"].get<double>();
+                    tSensorCfg.tRawScale.eRatio = (AX_VIN_DOWN_SCALE_RATIO_E)objRawScaleAttr["ratio"].get<double>();
                 }
+            }
+            if (objSetting.end() != objSetting.find("sns_raw_dump")) {
+                tSensorCfg.bSnsRawDump = (AX_BOOL)objSetting["sns_raw_dump"].get<bool>();
             }
 
             /* Merge multiple pipe configs to single sensor config with same sensor id */

@@ -51,6 +51,7 @@ typedef struct _WEB_CAMERA_ATTR_T {
     AX_BOOL bEZoomEnable;
     AX_BOOL bHdrRatioEnable;
     AX_BOOL bLFHdrSupport;
+    AX_BOOL bSnsRawDump;
     WEB_OPR_IMAGE_ATTR_T tImageAttr;
     WEB_OPR_LDC_ATTR_T tLdcAttr;
     WEB_OPR_DIS_ATTR_T tDisAttr;
@@ -78,6 +79,7 @@ typedef struct _WEB_CAMERA_ATTR_T {
         bEZoomEnable = AX_FALSE;
         bHdrRatioEnable = AX_FALSE;
         bLFHdrSupport  = AX_FALSE;
+        bSnsRawDump = AX_FALSE;
     }
 
 } WEB_CAMERA_ATTR_T, *WEB_CAMERA_ATTR_PTR;

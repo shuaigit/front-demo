@@ -298,6 +298,7 @@ MprJson* CWebOptionHelper::GetCameraJson(AX_U8 nSnsID) {
     WRITE_JSON_BOOL(json, "hdr_ratio_enable", attr.bHdrRatioEnable);
     WRITE_JSON_BOOL(json, "lf_hdr_support", attr.bLFHdrSupport);
     WRITE_JSON_INT(json, "hdr_ratio", attr.nHdrRatio);
+    WRITE_JSON_INT(json, "sns_raw_dump", attr.bSnsRawDump);
 
     return json;
 }
@@ -1099,6 +1100,8 @@ AX_BOOL CWebOptionHelper::ParseWebRequest(WEB_REQUEST_TYPE_E eReqType, const AX_
                     }
                 }
             }
+
+            // sns raw dump
             break;
         }
         case E_REQ_TYPE_IMAGE: {

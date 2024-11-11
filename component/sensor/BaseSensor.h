@@ -118,6 +118,7 @@ public:
     AX_BOOL GetSnsTemperature(AX_F32 &fTemperature);
     AX_VOID GetResolution(AX_U32 &nWidth, AX_U32 &nHeight);
     AX_BOOL SetHdrRatio(AX_U8 nHdrRatio);
+    AX_BOOL SetSnsRawDump(AX_BOOL bEnable);
 
     AX_BOOL SetMultiSnsSync(AX_BOOL bSync);
     AX_BOOL IsSnsSync();

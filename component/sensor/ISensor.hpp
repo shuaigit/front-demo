@@ -564,6 +564,7 @@ typedef struct _SENSOR_CONFIG_T {
     SNS_LIB_INFO_T m_tSnsLibInfo;
     SNS_SINGLE_PIPE_SWITCH_INFO_T tSinglePipeSwitchInfo;
     RAW_SCALE_ATTR_T tRawScale;
+    AX_BOOL bSnsRawDump;
 
     _SENSOR_CONFIG_T() {
         nSnsID = 0;
