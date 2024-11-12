@@ -181,7 +181,7 @@ export default {
           switch_PN_mode_enable: false,
           hdr_ratio_enable: false,
           hdr_ratio: 0,
-          sns_raw_dump:true,
+          sns_raw_dump:false,
           framerate_opts: [
             25,
             30
@@ -211,7 +211,6 @@ export default {
         if (!valid) return false
         try {
           const { data: res } = await this.$http.post('setting/camera', this.formCamera)
-          console.log('camera get return: ', res)
           if (res.meta.status === 200) {
             this.$message.success('修改成功')
           } else {
@@ -247,7 +246,7 @@ export default {
           this.formCamera.camera_attr.hdr_ratio = res.data.camera_attr.hdr_ratio
           this.formCamera.framerate_opts = res.data.framerate_opts
           this.formCamera.resolution_opts = res.data.resolution_opts
-          this.formCamera.sns_raw_dump = res.data.sns_raw_dump
+          this.formCamera.camera_attr.sns_raw_dump = res.data.camera_attr.sns_raw_dump
 
           if (res.data.camera_attr.lf_hdr_support) {
             this.sns_mode_item_num = 4

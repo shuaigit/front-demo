@@ -298,7 +298,7 @@ MprJson* CWebOptionHelper::GetCameraJson(AX_U8 nSnsID) {
     WRITE_JSON_BOOL(json, "hdr_ratio_enable", attr.bHdrRatioEnable);
     WRITE_JSON_BOOL(json, "lf_hdr_support", attr.bLFHdrSupport);
     WRITE_JSON_INT(json, "hdr_ratio", attr.nHdrRatio);
-    WRITE_JSON_INT(json, "sns_raw_dump", attr.bSnsRawDump);
+    WRITE_JSON_BOOL(json, "sns_raw_dump", attr.bSnsRawDump);
 
     return json;
 }
@@ -1102,6 +1102,15 @@ AX_BOOL CWebOptionHelper::ParseWebRequest(WEB_REQUEST_TYPE_E eReqType, const AX_
             }
 
             // sns raw dump
+                cchar* szSnsRawDump = mprReadJson(pJsonCamera, "sns_raw_dump");
+                WEB_REQ_OPERATION_T tOperation;
+                tOperation.nSnsID = nSnsID;
+                tOperation.bSnsRawDump = (strcmp(szSnsRawDump, "true") == 0 ? AX_TRUE : AX_FALSE);
+                tOperation.eReqType = E_REQ_TYPE_CAMERA;
+                tOperation.SetOperaType(E_WEB_OPERATION_TYPE_SNS_RAW_DUMP);
+                vecWebOpr.emplace_back(tOperation);
+                m_mapSns2CameraSetting[nSnsID].bSnsRawDump = tOperation.bSnsRawDump;
+                LOG_MM_I(WEB_OPTION, "[%d] camera rwa_dump_status:%d", nSnsID, tOperation.bSnsRawDump);
             break;
         }
         case E_REQ_TYPE_IMAGE: {

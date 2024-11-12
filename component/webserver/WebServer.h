@@ -450,6 +450,7 @@ typedef struct _WEB_REQ_OPERATION_T {
     AX_S32 nIntervalMs;
     AX_U16 nPriority; /* Bigger value means higher priority */
     AX_BOOL b3ASyncOn;
+    AX_BOOL bSnsRawDump;
     union {
         WEB_OPR_ROTATION_T tRotation;
         WEB_OPR_SNS_MODE_T tSnsMode;
@@ -487,6 +488,7 @@ typedef struct _WEB_REQ_OPERATION_T {
         eOperationType = E_WEB_OPERATION_TYPE_MAX;
         nIntervalMs = -1;
         b3ASyncOn = AX_TRUE;
+        bSnsRawDump = AX_FALSE;
     }
 
     AX_VOID SetOperaType(WEB_OPERATION_TYPE_E type) {

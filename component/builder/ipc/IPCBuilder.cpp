@@ -2147,6 +2147,7 @@ AX_BOOL CIPCBuilder::DispatchOpr(WEB_REQ_OPERATION_T& tOperation, AX_VOID** pRes
             break;
         }
         case E_WEB_OPERATION_TYPE_SNS_RAW_DUMP: {
+            m_mgrSensor.SetSnsRawDump(tOperation.nSnsID, tOperation.bSnsRawDump);
             ret = AX_TRUE;
             break;
         }
